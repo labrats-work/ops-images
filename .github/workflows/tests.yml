@@ -38,4 +38,4 @@ jobs:
         with:
           context: ./src/${{ matrix.image }}
           push: true
-          tags: "${{ matrix.image }}:latest"
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}/"${{ matrix.image }}:latest"
