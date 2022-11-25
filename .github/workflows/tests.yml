@@ -52,4 +52,4 @@ jobs:
         with:
           context: ./src/${{ matrix.image }}
           push: true
-          tags: docker.io/labratswork/ops-images/${{ matrix.image }}:latest
+          tags: docker.io/labratswork/ops-images-${{ matrix.image }}:latest
