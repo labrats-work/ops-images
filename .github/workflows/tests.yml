@@ -18,6 +18,9 @@ jobs:
 
     steps:
       -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - 
@@ -31,6 +34,6 @@ jobs:
         name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: "./src/${{ matrix.image }}"
+          context: src/${{ matrix.image }}
           push: true
           tags: "labrats-work/ops-images/${{ matrix.image }}:latest"
