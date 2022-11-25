@@ -25,4 +25,4 @@ jobs:
         with:
           context: "./src/${{ matrix.image }}"
           push: true
-          tags: "labrats-work/ops-images/{{ matrix.image }}:latest"
+          tags: "labrats-work/ops-images/${{ matrix.image }}:latest"
