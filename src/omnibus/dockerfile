@@ -1,9 +1,7 @@
-# Container image that runs your code
 FROM docker.io/alpine:3
 
 LABEL org.opencontainers.image.authors="tompisula@labrats.work"
 
-# Install Ansible and its dependencies
 RUN apk add --no-cache \
     terraform \
     ansible \
@@ -12,9 +10,7 @@ RUN apk add --no-cache \
     py3-pip \
     && pip3 install --upgrade pip
 
-# Set the working directory
 WORKDIR /app
 
-# Run the Ansible playbook
 ENTRYPOINT []
 CMD []
