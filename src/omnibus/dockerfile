@@ -5,6 +5,7 @@ LABEL org.opencontainers.image.authors="tompisula@labrats.work"
 RUN apk add --no-cache \
     terraform \
     ansible \
+    git \
     openssh \
     python3 \
     py3-pip \
