@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.source = "https://github.com/labrats-work/ops-ima
 RUN apk add --no-cache \
     terraform \
     ansible \
+    tar \
     git \
     openssh \
     python3 \
