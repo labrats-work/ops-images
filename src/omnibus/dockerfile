@@ -12,9 +12,8 @@ RUN apk add --no-cache \
     py3-pip \
     jq \
     yq \
-    && pip3 install --upgrade pip
-
-RUN pip install ansible
+    && pip3 install --upgrade pip \
+    && pip3 install ansible
 
 WORKDIR /app
 
