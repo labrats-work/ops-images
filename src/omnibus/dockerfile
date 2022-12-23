@@ -5,7 +5,6 @@ LABEL org.opencontainers.image.source = "https://github.com/labrats-work/ops-ima
 
 RUN apk add --no-cache \
     terraform \
-    ansible \
     tar \
     git \
     openssh \
@@ -14,6 +13,8 @@ RUN apk add --no-cache \
     jq \
     yq \
     && pip3 install --upgrade pip
+
+RUN pip install ansible
 
 WORKDIR /app
 
