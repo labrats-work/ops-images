@@ -4,9 +4,9 @@ LABEL org.opencontainers.image.authors = "tompisula@labrats.work"
 LABEL org.opencontainers.image.source = "https://github.com/labrats-work/ops-images"
 
 RUN apk add --no-cache \
-    xargs \
     tar \
     git \
+    findutils \
     openssh \
     python3 \
     py3-pip \
