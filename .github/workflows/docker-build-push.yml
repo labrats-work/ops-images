@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        image: [ terraform, ansible, omnibus ]
+        image: [ terraform, ansible, omnibus, python ]
 
     permissions:
       contents: read
