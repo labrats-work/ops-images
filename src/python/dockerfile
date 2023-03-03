@@ -5,5 +5,13 @@ RUN apt-get update \
 
 RUN pip3 install --upgrade pip
 
+# Install build-essential and gcc, upgrade pip, and remove unnecessary files
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential gcc \
+    && pip3 install --no-cache-dir --upgrade pip \
+    && apt-get remove -y build-essential gcc \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+    
 ENTRYPOINT []
 CMD []
