@@ -1,6 +1,9 @@
 name: Create and publish a Docker image
 
-on: [push]
+on: 
+  push:
+  schedule:
+    - cron: '0 0 * * 1'
 
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
