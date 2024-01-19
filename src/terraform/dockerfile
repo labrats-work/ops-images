@@ -10,11 +10,8 @@ RUN apk add --no-cache \
     git \
     curl \
     openssh \
-    python3 \
-    py3-pip \
     jq \
-    yq \
-    && pip3 install --upgrade pip
+    yq
 
 RUN curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin \
