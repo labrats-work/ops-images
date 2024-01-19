@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.source = "https://github.com/labrats-work/ops-ima
 ARG TERRAFORM_VERSION=1.6.6
 
 RUN apk add --no-cache \
+    curl \
     xorriso \
     git \
     curl \
