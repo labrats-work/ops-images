@@ -3,6 +3,8 @@ FROM docker.io/alpine:3
 LABEL org.opencontainers.image.authors = "tompisula@labrats.work"
 LABEL org.opencontainers.image.source = "https://github.com/labrats-work/ops-images"
 
+ARG TERRAFORM_VERSION=1.6.6
+
 RUN apk add --no-cache \
     tar \
     git \
@@ -12,9 +14,13 @@ RUN apk add --no-cache \
     py3-pip \
     jq \
     yq \
-    terraform \
     && pip3 install --upgrade pip \
     && pip3 install ansible
+
+
+RUN curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+    && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin \
+    && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 WORKDIR /app
 
