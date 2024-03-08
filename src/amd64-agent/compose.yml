@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  arm64v8-agent:
+    image: ghcr.io/labrats-work/ops-images/amd64-agent:latest
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      REPO_URL: ${REPO_URL}
+      BRANCH: ${BRANCH:-main}
