@@ -15,15 +15,18 @@ To ensure the Docker container functions correctly and securely, it is essential
 To run the Docker container with the necessary environment variables, utilize the `-e` or `--env` flag for each variable during container execution. Here's an example command:
 
 ``` bash
-docker run -e GITHUB_TOKEN=your_github_token -e REPO_URL=https://github.com/yourusername/yourrepo.git -e BRANCH=main your_docker_image_name
+docker run \ 
+    -e GITHUB_TOKEN=your_github_token \
+    -e REPO_URL=https://github.com/yourusername/yourrepo.git \
+    -e BRANCH=main \
+    ghcr.io/labrats-work/ops-images/arm64v8-agent arm64v8-agent
 ```
 
 Replace:
 
-- your_github_token with your actual GitHub personal access token.
-- https://github.com/yourusername/yourrepo.git with your GitHub repository URL.
-- main with your target branch name if different from main.
-- your_docker_image_name with the name of your Docker image.
+- **your_github_token** with your actual GitHub personal access token.
+- **https://github.com/yourusername/yourrepo.git** with your GitHub repository URL.
+- **main** with your target branch name if different from main.
 
 ### Security Considerations
 

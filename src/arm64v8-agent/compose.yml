@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  repo-cloner:
-    image: repo-cloner:latest
+  arm64v8-agent:
+    image: ghcr.io/labrats-work/ops-images/arm64v8-agent:latest
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       REPO_URL: ${REPO_URL}
