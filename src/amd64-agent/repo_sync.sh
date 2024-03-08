@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fail script on any error
-set -e
+set -ehttps://chat.openai.com/c/3bf47b75-30f9-416e-b50a-7b6a352cd71c
 
 # Ensure GITHUB_TOKEN and REPO_URL are provided
 if [ -z "$GITHUB_TOKEN" ]; then

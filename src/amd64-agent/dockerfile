@@ -18,12 +18,6 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install --upgrade pip && \
     pip install ansible
 
-# Create a non-root user and change ownership of necessary directories
-RUN useradd -m appuser && \
-    chown -R appuser:appuser /opt/venv && \
-    mkdir -p /usr/src/app && \
-    chown -R appuser:appuser /usr/src/app
-
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
@@ -34,9 +28,6 @@ COPY --chown=appuser:appuser repo_sync.sh .
 
 # Make the scripts executable
 RUN chmod +x entrypoint.sh repo_sync.sh
-
-# Switch to non-root user
-USER appuser
 
 # Use the entry script to initialize the container
 ENTRYPOINT ["./entrypoint.sh"]
