@@ -1,5 +1,5 @@
 # Use an official AMD64 Debian slim image as a parent image
-FROM amd64/debian:bookworm-slim
+FROM arm64v8/debian:bookworm-slim
 
 LABEL org.opencontainers.image.authors="tompisula@labrats.work"
 LABEL org.opencontainers.image.source="https://github.com/labrats-work/ops-images"
