@@ -23,8 +23,8 @@ WORKDIR /usr/src/app
 
 # Copy the scripts into the container at /usr/src/app
 # Ensure they are owned by the non-root user
-COPY --chown=appuser:appuser entrypoint.sh .
-COPY --chown=appuser:appuser repo_sync.sh .
+COPY entrypoint.sh .
+COPY repo_sync.sh .
 
 # Make the scripts executable
 RUN chmod +x entrypoint.sh repo_sync.sh
