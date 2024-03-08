@@ -4,19 +4,19 @@ FROM arm64v8/debian:bookworm-slim
 LABEL org.opencontainers.image.authors = "tompisula@labrats.work"
 LABEL org.opencontainers.image.source = "https://github.com/labrats-work/ops-images"
 
-# Avoid prompts from apt
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install necessary packages for Ansible and Git
+# Install Python, pip, and venv
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip git && \
+    apt-get install -y python3 python3-pip python3-venv git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip and Install Ansible using pip
-RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install ansible
+# Create a virtual environment
+RUN python3 -m venv /opt/venv
 
+# Install Ansible within the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --upgrade pip && \
+    pip install ansible
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
