@@ -31,5 +31,11 @@ RUN echo "3d27b1340086115a118e28628a11ae727ecc6b857430c4b1b6cbe64f1f3b6789  acti
 RUN tar xzf ./actions-runner-linux-arm64-2.314.1.tar.gz
 RUN rm actions-runner-linux-arm64-2.314.1.tar.gz
 
+RUN groupadd -r ghagent && useradd -r -g ghagent ghagent
+
+RUN chown -R ghagent:ghagent /usr/src/app
+
+USER ghagent
+
 # Use the entry script to initialize the container
 ENTRYPOINT ["./run.sh"]
