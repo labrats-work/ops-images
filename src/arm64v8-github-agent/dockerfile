@@ -23,8 +23,7 @@ WORKDIR /usr/src/app
 
 # Copy the scripts into the container at /usr/src/app
 # Ensure they are owned by the non-root user
-COPY entrypoint.sh .
-COPY repo_sync.sh .
+COPY run.sh .
 
 # Make the runner
 RUN mkdir actions-runner && \
