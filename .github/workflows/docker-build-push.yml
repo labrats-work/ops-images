@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        image: [ terraform, ansible, omnibus, python, python-ffmpeg, arm64v8-github-agent, amd64-agent ]
+        image: [ terraform, ansible, omnibus, python, python-ffmpeg, arm64v8-github-agent, amd64-github-agent ]
 
     permissions:
       contents: read
