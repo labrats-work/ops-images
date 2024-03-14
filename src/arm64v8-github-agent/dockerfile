@@ -34,4 +34,4 @@ RUN mkdir actions-runner && \
     rm actions-runner-linux-arm64-2.314.1.tar.gz
 
 # Use the entry script to initialize the container
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./run.sh"]
