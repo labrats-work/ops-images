@@ -26,10 +26,10 @@ WORKDIR /usr/src/app
 COPY run.sh .
 
 # Make the runner
-RUN curl -o actions-runner-linux-arm64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-arm64-2.314.1.tar.gz && \
-    echo "3d27b1340086115a118e28628a11ae727ecc6b857430c4b1b6cbe64f1f3b6789  actions-runner-linux-arm64-2.314.1.tar.gz" | shasum -a 256 -c && \
-    tar xzf ./actions-runner-linux-arm64-2.314.1.tar.gz && \
-    rm actions-runner-linux-arm64-2.314.1.tar.gz
+RUN curl -o actions-runner-linux-arm64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-arm64-2.314.1.tar.gz
+RUN echo "3d27b1340086115a118e28628a11ae727ecc6b857430c4b1b6cbe64f1f3b6789  actions-runner-linux-arm64-2.314.1.tar.gz" | shasum -a 256 -c
+RUN tar xzf ./actions-runner-linux-arm64-2.314.1.tar.gz
+RUN rm actions-runner-linux-arm64-2.314.1.tar.gz
 
 # Use the entry script to initialize the container
 ENTRYPOINT ["./run.sh"]
