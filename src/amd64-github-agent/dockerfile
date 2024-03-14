@@ -1,0 +1,36 @@
+# Use an official AMD64 Debian slim image as a parent image
+FROM amd64/debian:bookworm-slim
+
+LABEL org.opencontainers.image.authors="tompisula@labrats.work"
+LABEL org.opencontainers.image.source="https://github.com/labrats-work/ops-images"
+
+# Install Python, pip, and venv
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip python3-venv git wireguard iproute2 openresolv procps && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create a virtual environment
+RUN python3 -m venv /opt/venv
+
+# Install Ansible within the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --upgrade pip && \
+    pip install ansible
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the scripts into the container at /usr/src/app
+# Ensure they are owned by the non-root user
+COPY run.sh .
+
+# Make the runner
+RUN mkdir actions-runner && \
+    curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz && \
+    echo "6c726a118bbe02cd32e222f890e1e476567bf299353a96886ba75b423c1137b5  actions-runner-linux-x64-2.314.1.tar.gz" | shasum -a 256 -c && \
+    tar xzf ./actions-runner-linux-x64-2.314.1.tar.gz && \
+    rm actions-runner-linux-x64-2.314.1.tar.gz
+
+# Use the entry script to initialize the container
+ENTRYPOINT ["./run.sh"]
