@@ -54,21 +54,21 @@ jobs:
     - 
       name: Terraform
       run: |
-        which terraform
+        echo $(which terraform)
         terraform -v
     - 
       name: Ansible
       run: |
-        which ansible
+        echo $(which ansible)
         ansible --version
     - 
       name: Python
       run: |
-        which python
+        echo $(which python)
         python --version
     - 
       name: Wireguard
       run: |
-        which wg
+        echo $(which wg)
         which wg-quick
     
