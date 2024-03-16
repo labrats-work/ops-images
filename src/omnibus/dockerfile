@@ -4,7 +4,7 @@ FROM --platform=$BUILDPLATFORM docker.io/alpine:3 AS base
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
-RUN echo "Building for architecture ${BUILDPLATFORM} ${TARGETPLATFORM}"
+RUN echo "Building for architecture ${TARGETPLATFORM} on ${BUILDPLATFORM}"
 
 # Labels
 LABEL org.opencontainers.image.authors="tompisula@labrats.work"
@@ -32,14 +32,14 @@ RUN apk add --no-cache \
 # Conditional logic for downloading Terraform based on architecture
 # Here, assuming that Terraform binaries for arm64 and amd64 are directly available via URL pattern.
 # You may need to adjust the URLs based on actual availability and naming conventions.
-# RUN if [ "${TARGETARCH}" = "amd64" ]; then \
-#         TERRAFORM_ARCH="amd64"; \
-#     elif [ "${TARGETARCH}" = "arm64" ]; then \
-#         TERRAFORM_ARCH="arm64"; \
-#     fi \
-#     && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip \
-#     && unzip terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip -d /usr/local/bin \
-#     && rm terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip
+RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
+        TERRAFORM_ARCH="amd64"; \
+    elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
+        TERRAFORM_ARCH="arm64"; \
+    fi \
+    && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip \
+    && unzip terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip -d /usr/local/bin \
+    && rm terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip
 
 WORKDIR /app
 
