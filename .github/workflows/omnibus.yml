@@ -129,22 +129,14 @@ jobs:
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
 
-  trigger-workflow:
-    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.meta.outputs.version }}
+
+
+  run-job2:
     needs:
       - merge
-    steps:
-    - name: Trigger Omnibus Tests Workflow
-      uses: actions/github-script@v5
-      with:
-        script: |
-          github.actions.createWorkflowDispatch({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            workflow_id: 'omnibus-tests.yml',
-            ref: '${{ github.ref_name }}', 
-            inputs: {
-              image_tag: '${{ github.ref_name }}'
-            }
-          })
-        github-token: ${{secrets.GITHUB_TOKEN}}
+    uses: ./.github/workflows/omnibus-tests.yml
+    secrets: inherit
+    with:
+      image-tag: ${{ needs.merge.outputs.image-tag }}

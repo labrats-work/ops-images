@@ -1,21 +1,23 @@
 name: 'omnibus-tests'
   
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      image_tag:
+      image-tag:
+        type: string
         description: 'The tag of the omnibus image to use for testing'
         required: true
-        default: 'latest'
+        default: 'main'
 
 jobs:
-  common:
+  run-image:
     runs-on: ubuntu-latest
-    environment: ${{ github.workflow }}
-
     container:
-      image: ghcr.io/labrats-work/ops-images/omnibus:${{ github.event.inputs.image_tag }}
+      image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
       options: --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - 
