@@ -1,6 +1,6 @@
 # Set the base image dynamically based on the target architecture
 # Use buildx or a similar tool to pass the TARGETARCH build argument
-FROM --platform=$BUILDPLATFORM docker.io/alpine:3 AS base
+FROM --platform=$TARGETPLATFORM docker.io/alpine:3 AS base
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
