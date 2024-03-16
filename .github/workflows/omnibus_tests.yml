@@ -13,7 +13,7 @@ jobs:
     environment: ${{ github.workflow }}
 
     container:
-      image: ghcr.io/labrats-work/ops-images/omnibus:latest
+      image: ghcr.io/labrats-work/ops-images/omnibus:${{ github.ref_name }}
       options: --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
 
     steps:
