@@ -24,8 +24,8 @@ RUN apk add --no-cache \
     wireguard-tools-wg-quick
 
 # Ansible installation (using pip for better control over version and compatibility)
-RUN apk add --no-cache python3 py3-pip \
-    && pip install ansible
+RUN apk add --no-cache python3 py3-pip
+RUN pip3 install ansible
 
 # Conditional logic for downloading Terraform based on architecture
 # Here, assuming that Terraform binaries for arm64 and amd64 are directly available via URL pattern.
