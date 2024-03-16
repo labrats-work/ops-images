@@ -40,10 +40,6 @@ RUN if [ "${TARGETARCH}" = "amd64" ]; then \
     && unzip terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip -d /usr/local/bin \
     && rm terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip
 
-https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_windows_amd64.zip
-
-https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
-
 WORKDIR /app
 
 ENTRYPOINT []
