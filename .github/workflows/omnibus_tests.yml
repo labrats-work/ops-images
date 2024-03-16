@@ -1,0 +1,29 @@
+name: 'omnibus-tests'
+  
+on:
+  push:
+    # branches:
+    #   - "main"
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: sh
+    working-directory: ./src/ansible    
+
+jobs:
+  common:
+    runs-on: ubuntu-latest
+    environment: ${{ github.workflow }}
+
+    container:
+      image: ghcr.io/labrats-work/ops-images/omnibus:latest
+      options: --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
+
+    steps:
+    - 
+      name: Terraform CLI
+      run: |
+        # wireguard
+        terraform -v
+    
