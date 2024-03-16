@@ -10,8 +10,8 @@ on:
         default: 'main'
 
 jobs:
-  run-image:
-    runs-on: ubuntu-latest
+  run-x86:
+    runs-on: amd64/ubuntu
     container:
       image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
       options: --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
@@ -21,7 +21,54 @@ jobs:
 
     steps:
     - 
-      name: Terraform CLI
+      name: Terraform
       run: |
+        which terraform
         terraform -v
+    - 
+      name: Ansible
+      run: |
+        which ansible
+        ansible --version
+    - 
+      name: Python
+      run: |
+        which python
+        python --version
+    - 
+      name: Wireguard
+      run: |
+        which wg
+        which wg-quick
+
+  run-arm64:
+    runs-on: arm64v8/ubuntu
+    container:
+      image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
+      options: --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+    - 
+      name: Terraform
+      run: |
+        which terraform
+        terraform -v
+    - 
+      name: Ansible
+      run: |
+        which ansible
+        ansible --version
+    - 
+      name: Python
+      run: |
+        which python
+        python --version
+    - 
+      name: Wireguard
+      run: |
+        which wg
+        which wg-quick
     
