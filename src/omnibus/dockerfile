@@ -47,5 +47,5 @@ RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
 
 WORKDIR /app
 
-ENTRYPOINT []
+ENTRYPOINT ["/bin/sh", "-c"]
 CMD []
