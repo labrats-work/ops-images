@@ -2,8 +2,9 @@ name: 'omnibus-tests'
   
 on:
   push:
-    # branches:
-    #   - "main"
+    paths:
+      - './src/omnibus/**'
+      - './.github/workflows/omnibus**'
   workflow_dispatch:
 
 jobs:
