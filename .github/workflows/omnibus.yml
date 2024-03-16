@@ -1,9 +1,10 @@
-name: ci
+name: 'omnibus'
 
 on:
   push:
     # branches:
     #   - "main"
+  workflow_dispatch:
 
 env:
   CONTEXT: ./src/omnibus
