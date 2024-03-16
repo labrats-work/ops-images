@@ -10,11 +10,11 @@ on:
         default: 'main'
 
 jobs:
-  run-x86:
-    runs-on: amd64/ubuntu
+  run-amd64:
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
-      options: --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
+      options: --platform linux/amd64 --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -41,11 +41,11 @@ jobs:
         which wg
         which wg-quick
 
-  run-arm64:
-    runs-on: arm64v8/ubuntu
+  run-arm64v8:
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
-      options: --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
+      options: --platform linux/arm64/v8 --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
