@@ -3,6 +3,8 @@
 ARG TARGETARCH=amd64
 FROM docker.io/alpine:3 AS base
 
+RUN echo "Building for architecture ${TARGETARCH}"
+
 # Labels
 LABEL org.opencontainers.image.authors="tompisula@labrats.work"
 LABEL org.opencontainers.image.source="https://github.com/labrats-work/ops-images"
@@ -37,6 +39,10 @@ RUN if [ "${TARGETARCH}" = "amd64" ]; then \
     && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip \
     && unzip terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip -d /usr/local/bin \
     && rm terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip
+
+https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_windows_amd64.zip
+
+https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
 
 WORKDIR /app
 
