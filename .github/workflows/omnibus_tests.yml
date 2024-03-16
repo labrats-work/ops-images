@@ -6,11 +6,6 @@ on:
     #   - "main"
   workflow_dispatch:
 
-defaults:
-  run:
-    shell: sh
-    working-directory: ./src/ansible    
-
 jobs:
   common:
     runs-on: ubuntu-latest
