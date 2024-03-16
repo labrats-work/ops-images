@@ -14,13 +14,12 @@ jobs:
     environment: ${{ github.workflow }}
 
     container:
-      image: ghcr.io/labrats-work/ops-images/omnibus:
+      image: ghcr.io/labrats-work/ops-images/omnibus:${{ github.event.inputs.image_tag }}
       options: --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
 
     steps:
     - 
       name: Terraform CLI
       run: |
-        # wireguard
         terraform -v
     
