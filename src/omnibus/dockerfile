@@ -36,6 +36,10 @@ RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
         TERRAFORM_ARCH="amd64"; \
     elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
         TERRAFORM_ARCH="arm64"; \
+    elif [ "${TARGETPLATFORM}" = "linux/arm64/v7" ]; then \
+        TERRAFORM_ARCH="arm64"; \
+    elif [ "${TARGETPLATFORM}" = "linux/arm64/v8" ]; then \
+        TERRAFORM_ARCH="arm64"; \
     fi \
     && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip \
     && unzip terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip -d /usr/local/bin \
