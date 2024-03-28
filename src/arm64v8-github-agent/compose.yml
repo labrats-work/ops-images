@@ -1,8 +1,0 @@
-version: '3.8'
-
-services:
-  agent:
-    image: ghcr.io/labrats-work/ops-images/arm64v8-github-agent:latest
-    environment:
-      MY_URL: ${MY_URL}
-      MY_TOKEN: ${MY_TOKEN}
