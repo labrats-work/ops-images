@@ -26,6 +26,7 @@ RUN apk add --no-cache \
     openssh \
     jq \
     yq \
+    wireguard \
     wireguard-tools \
     wireguard-tools-wg-quick
 
