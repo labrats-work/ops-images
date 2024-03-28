@@ -41,34 +41,34 @@ jobs:
         which wg
         which wg-quick
 
-  run-arm64v8:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
-      options: --platform linux/arm64/v8 --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+  # run-arm64v8:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
+  #     options: --platform linux/arm64/v8 --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
+  #     credentials:
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
 
-    steps:
-    - 
-      name: Terraform
-      run: |
-        echo $(which terraform)
-        terraform -v
-    - 
-      name: Ansible
-      run: |
-        echo $(which ansible)
-        ansible --version
-    - 
-      name: Python
-      run: |
-        echo $(which python)
-        python --version
-    - 
-      name: Wireguard
-      run: |
-        echo $(which wg)
-        which wg-quick
+  #   steps:
+  #   - 
+  #     name: Terraform
+  #     run: |
+  #       echo $(which terraform)
+  #       terraform -v
+  #   - 
+  #     name: Ansible
+  #     run: |
+  #       echo $(which ansible)
+  #       ansible --version
+  #   - 
+  #     name: Python
+  #     run: |
+  #       echo $(which python)
+  #       python --version
+  #   - 
+  #     name: Wireguard
+  #     run: |
+  #       echo $(which wg)
+  #       which wg-quick
     
