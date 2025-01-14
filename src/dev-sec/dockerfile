@@ -13,11 +13,10 @@ RUN apt-get update && apt-get install -y \
 FROM base as hardening
 
 # Copy the DevSec Ansible playbook into the image (make sure it's in the right location)
-COPY /path/to/your/ansible/hardening/playbook.yml /tmp/playbook.yml
 
 # Run the playbook to harden the system
-RUN ansible-playbook /tmp/playbook.yml -i localhost, -c local \
-    && rm /tmp/playbook.yml \
+RUN ansible-galaxy install community.devsec.hardening
+RUN ansible localhost -m include_role -a "name=devsec.hardening" -c local \
     && apt-get remove --purge -y ansible python3-pip sshpass curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
