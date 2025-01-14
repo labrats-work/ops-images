@@ -42,7 +42,7 @@ jobs:
         which wg-quick
 
   run-arm64v8:
-    runs-on: ubuntu-latest
+    runs-on: arm64v8/ubuntu
     container:
       image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
       options: --platform linux/arm64/v8 --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
