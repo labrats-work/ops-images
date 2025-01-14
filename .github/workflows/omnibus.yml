@@ -3,9 +3,8 @@ name: 'omnibus'
 on:
   push:
     paths: 
-      paths: 
-        - '**/omnibus.yml'
-        - '**/omnibus/dockerfile'
+      - '**/omnibus.yml'
+      - '**/omnibus/dockerfile'
   workflow_dispatch:
 
 env:
