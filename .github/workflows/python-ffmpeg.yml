@@ -2,8 +2,9 @@ name: 'python-ffmpeg'
 
 on:
   push:
-    # branches:
-    #   - "main"
+    paths: 
+      - '**/python-ffmpeg.yml'
+      - '**/python-ffmpeg/dockerfile'
   workflow_dispatch:
 
 env:

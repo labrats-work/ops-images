@@ -2,8 +2,9 @@ name: 'ansible'
 
 on:
   push:
-    # branches:
-    #   - "main"
+    paths: 
+      - '**/ansible.yml'
+      - '**/ansible/dockerfile'
   workflow_dispatch:
 
 env:

@@ -2,8 +2,9 @@ name: 'python'
 
 on:
   push:
-    # branches:
-    #   - "main"
+    paths: 
+      - '**/python.yml'
+      - '**/python/dockerfile'
   workflow_dispatch:
 
 env:
