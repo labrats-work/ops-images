@@ -15,7 +15,7 @@ FROM base as hardening
 # Copy the DevSec Ansible playbook into the image (make sure it's in the right location)
 
 # Run the playbook to harden the system
-RUN ansible-galaxy install devsec.hardening.os_hardening
+RUN ansible-galaxy collection install devsec.hardening
 RUN ansible localhost -m include_role -a "name=devsec.hardening.os_hardening" -c local \
     && apt-get remove --purge -y ansible python3-pip sshpass curl \
     && apt-get clean \
