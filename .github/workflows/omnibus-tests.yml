@@ -12,45 +12,29 @@ on:
 jobs:
   run-amd64:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
-      options: --platform linux/amd64 --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    strategy:
+      matrix:
+        arch:
+          - docker: linux/amd64 
+          - docker: linux/arm64/v8
 
     steps:
     - 
-      name: Terraform
-      run: |
-        which terraform
-        terraform -v
-    - 
-      name: Ansible
-      run: |
-        which ansible
-        ansible --version
-    - 
-      name: Python
-      run: |
-        which python
-        python --version
-    - 
-      name: Wireguard
-      run: |
-        which wg
-        which wg-quick
+      name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      with:
+        platforms: ${{ matrix.arch }}
 
-  run-arm64v8:
-    runs-on: arm64v8/ubuntu
-    container:
-      image: ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }}
-      options: --platform linux/arm64/v8 --cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    steps:
+    - 
+      name: Run in Docker
+      run: |
+        docker run \
+          --rm \
+          -v $(pwd):/${{ github.workspace }} \
+          -w ${{ github.workspace }} \
+          --platform ${{ matrix.arch }} \
+          ghcr.io/labrats-work/ops-images/omnibus:${{ inputs.image-tag }} \
+          uname -a
     - 
       name: Terraform
       run: |
