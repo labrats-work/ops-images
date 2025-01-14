@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        image: [ terraform, ansible, python, python-ffmpeg ]
+        image: [ terraform, ansible, python, python-ffmpeg, dev-sec ]
 
     permissions:
       contents: read
