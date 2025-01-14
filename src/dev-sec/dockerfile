@@ -1,0 +1,44 @@
+# Stage 1: Build the base image
+FROM ubuntu:20.04 as base
+
+# Install dependencies for Ansible and the hardening playbook
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    sshpass \
+    curl \
+    && pip3 install ansible \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Stage 2: Apply DevSec Ansible Hardening
+FROM base as hardening
+
+# Copy the DevSec Ansible playbook into the image (make sure it's in the right location)
+COPY /path/to/your/ansible/hardening/playbook.yml /tmp/playbook.yml
+
+# Run the playbook to harden the system
+RUN ansible-playbook /tmp/playbook.yml -i localhost, -c local \
+    && rm /tmp/playbook.yml \
+    && apt-get remove --purge -y ansible python3-pip sshpass curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Stage 3: Final Image
+FROM ubuntu:20.04 as final
+
+# Copy the hardened environment from the 'hardening' stage
+COPY --from=hardening / /
+
+# Optionally, remove any temporary files or tools that are still in the image
+RUN rm -rf /tmp/* /var/tmp/* /root/.ansible /root/.cache /usr/share/ansible
+
+# Final application setup (if needed)
+# Install any application-specific dependencies or copy application code here
+# For example:
+# COPY /path/to/app /app
+# RUN apt-get install -y some-application
+
+# Optionally remove any other build dependencies if needed to reduce image size
+
+# Expose necessary ports (if needed)
+# EXPOSE 80
+# CMD ["/app/entrypoint"]
