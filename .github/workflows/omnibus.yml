@@ -2,8 +2,9 @@ name: 'omnibus'
 
 on:
   push:
-    # branches:
-    #   - "main"
+    paths: 
+      - '**/omnibus*.yml'
+      - '**/omnibus/dockerfile'
   workflow_dispatch:
 
 env:

@@ -2,8 +2,9 @@ name: 'terraform'
 
 on:
   push:
-    # branches:
-    #   - "main"
+    paths: 
+      - '**/terraform.yml'
+      - '**/terraform/dockerfile'
   workflow_dispatch:
 
 env:
