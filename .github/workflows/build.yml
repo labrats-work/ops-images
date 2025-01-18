@@ -9,6 +9,10 @@ on:
         type: string
         description: 'The registry image name'
         required: true
+    outputs:
+      image-tag: 
+          description: "The build image tag."
+          value: ${{ jobs.merge.outputs.image-tag }}
 
 jobs:
   build:

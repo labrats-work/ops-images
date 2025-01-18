@@ -8,7 +8,7 @@ on:
         description: 'The image to use for testing'
         required: true
         default: 'main'
-      image-tag:
+      image_tag:
         type: string
         description: 'The tag of the image to use for testing'
         required: true

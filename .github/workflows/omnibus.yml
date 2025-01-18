@@ -18,6 +18,6 @@ jobs:
     uses: ./.github/workflows/test.yml
     needs: build
     with:
-      context: ./src/omnibus
       registry_image: ghcr.io/${{ github.repository }}/omnibus
+      image_tag: ${{ needs.build.outputs.image-tag }}
     secrets: inherit
