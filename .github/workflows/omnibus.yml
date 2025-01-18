@@ -7,8 +7,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  build:
     uses: ./.github/workflows/build.yml
+    with:
+      context: ./src/omnibus
+      registry_image: ghcr.io/${{ github.repository }}/omnibus
+    secrets: inherit
+
+  test:
+    uses: ./.github/workflows/test.yml
+    needs: build
     with:
       context: ./src/omnibus
       registry_image: ghcr.io/${{ github.repository }}/omnibus
