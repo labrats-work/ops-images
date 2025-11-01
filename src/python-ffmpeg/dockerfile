@@ -1,4 +1,7 @@
-FROM registry.hub.docker.com/library/python:3.9-slim-buster
+FROM registry.hub.docker.com/library/python:3.12-slim-bookworm
+
+LABEL org.opencontainers.image.authors="tompisula@labrats.work"
+LABEL org.opencontainers.image.source="https://github.com/labrats-work/ops-images"
 
 # Install build-essential and gcc, upgrade pip, and remove unnecessary files
 RUN apt-get update \

@@ -1,7 +1,7 @@
-FROM docker.io/alpine:3
+FROM docker.io/alpine:3.22
 
-LABEL org.opencontainers.image.authors = "tompisula@labrats.work"
-LABEL org.opencontainers.image.source = "https://github.com/labrats-work/ops-images"
+LABEL org.opencontainers.image.authors="tompisula@labrats.work"
+LABEL org.opencontainers.image.source="https://github.com/labrats-work/ops-images"
 
 RUN apk add --no-cache \
     ansible \
