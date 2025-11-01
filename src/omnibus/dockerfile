@@ -1,6 +1,6 @@
 # Set the base image dynamically based on the target architecture
 # Use buildx or a similar tool to pass the TARGETARCH build argument
-FROM --platform=$TARGETPLATFORM docker.io/alpine:3 AS base
+FROM --platform=$TARGETPLATFORM docker.io/alpine:3.22 AS base
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.authors="tompisula@labrats.work"
 LABEL org.opencontainers.image.source="https://github.com/labrats-work/ops-images"
 
 # Environment variables and arguments
-ARG TERRAFORM_VERSION=1.7.5
+ARG TERRAFORM_VERSION=1.13.4
 ENV TERRAFORM_VERSION=${TERRAFORM_VERSION}
 
 # Install dependencies

@@ -1,22 +1,36 @@
-FROM docker.io/alpine:3
+FROM --platform=$TARGETPLATFORM docker.io/alpine:3.22
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 
-LABEL org.opencontainers.image.authors = "tompisula@labrats.work"
-LABEL org.opencontainers.image.source = "https://github.com/labrats-work/ops-images"
+RUN echo "Building for architecture ${TARGETPLATFORM} on ${BUILDPLATFORM}"
 
-ARG TERRAFORM_VERSION=1.6.6
+LABEL org.opencontainers.image.authors="tompisula@labrats.work"
+LABEL org.opencontainers.image.source="https://github.com/labrats-work/ops-images"
+
+ARG TERRAFORM_VERSION=1.13.4
+ENV TERRAFORM_VERSION=${TERRAFORM_VERSION}
 
 RUN apk add --no-cache \
     curl \
     xorriso \
     git \
-    curl \
     openssh \
     jq \
     yq
 
-RUN curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
-    && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin \
-    && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+# Conditional logic for downloading Terraform based on architecture
+RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
+        TERRAFORM_ARCH="amd64"; \
+    elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
+        TERRAFORM_ARCH="arm64"; \
+    elif [ "${TARGETPLATFORM}" = "linux/arm64/v7" ]; then \
+        TERRAFORM_ARCH="arm64"; \
+    elif [ "${TARGETPLATFORM}" = "linux/arm64/v8" ]; then \
+        TERRAFORM_ARCH="arm64"; \
+    fi \
+    && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip \
+    && unzip terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip -d /usr/local/bin \
+    && rm terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip
 
 WORKDIR /app
 
