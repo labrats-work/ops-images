@@ -1,0 +1,102 @@
+name: 'release'
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "version_number=${VERSION#v}" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          cat > release_notes.md <<'EOF'
+          ## Multi-Architecture Container Images Release
+
+          This release includes the following container images, available for **linux/amd64** and **linux/arm64/v8** architectures:
+
+          ### Available Images
+
+          All images are published to GitHub Container Registry:
+
+          | Image | Pull Command |
+          |-------|--------------|
+          | **ansible** | `docker pull ghcr.io/labrats-work/ops-images/ansible:${{ steps.version.outputs.version_number }}` |
+          | **terraform** | `docker pull ghcr.io/labrats-work/ops-images/terraform:${{ steps.version.outputs.version_number }}` |
+          | **python** | `docker pull ghcr.io/labrats-work/ops-images/python:${{ steps.version.outputs.version_number }}` |
+          | **python-ffmpeg** | `docker pull ghcr.io/labrats-work/ops-images/python-ffmpeg:${{ steps.version.outputs.version_number }}` |
+          | **omnibus** | `docker pull ghcr.io/labrats-work/ops-images/omnibus:${{ steps.version.outputs.version_number }}` |
+
+          ### Supported Architectures
+
+          - `linux/amd64`
+          - `linux/arm64/v8`
+
+          ### Image Versions
+
+          - **Alpine**: 3.22
+          - **Python**: 3.12-slim-bookworm (Debian 12)
+          - **Terraform**: 1.13.4 (configurable via build arg)
+
+          ### Additional Tags
+
+          Each image is tagged with multiple versions for flexibility:
+          - Full version: `${{ steps.version.outputs.version_number }}`
+          - Major.Minor: `${MAJOR}.${MINOR}` (e.g., 1.0)
+          - Major: `${MAJOR}` (e.g., 1)
+          - Latest: `latest` (always points to the newest stable release)
+
+          ### Verify Multi-Arch Support
+
+          ```bash
+          # Inspect the manifest to see all architectures
+          docker buildx imagetools inspect ghcr.io/labrats-work/ops-images/ansible:${{ steps.version.outputs.version_number }}
+          ```
+
+          ### Build Artifacts
+
+          All images have been built and tested via GitHub Actions workflows. See the [Actions tab](https://github.com/labrats-work/ops-images/actions) for build logs and test results.
+
+          EOF
+
+          echo "Generated release notes"
+
+      - name: Get previous tag
+        id: previous_tag
+        run: |
+          PREVIOUS_TAG=$(git tag --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' | sed -n '2p')
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "No previous tag found, using first commit"
+            PREVIOUS_TAG=$(git rev-list --max-parents=0 HEAD)
+          fi
+          echo "previous_tag=${PREVIOUS_TAG}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Release ${{ steps.version.outputs.version }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
