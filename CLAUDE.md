@@ -30,12 +30,27 @@ The omnibus image uses `TARGETPLATFORM` and `BUILDPLATFORM` build arguments to c
 
 ### GitHub Actions Workflows
 
-Each image has a corresponding workflow in `.github/workflows/`:
-- Triggered on push and workflow_dispatch
+The repository uses a consolidated matrix-based build system in `.github/workflows/`:
+
+**build.yml** - Main build workflow:
+- Uses matrix strategy to build all 5 images in parallel
+- Builds each image for both amd64 and arm64 platforms
+- Triggered on push to main, tags, PRs, and workflow_dispatch
 - Uses digest-based pushing strategy for multi-arch support
 - Images tagged with: branch name, PR reference, semver patterns, and commit SHA
+- Calls omnibus-tests workflow after merge job completes
+- All images are kept on the same version
 
-The omnibus-tests workflow (.github/workflows/omnibus-tests.yml) is a reusable workflow called from omnibus.yml that validates tool availability using `which` and version checks. It requires special container options: `--cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1` for Wireguard support.
+**omnibus-tests.yml** - Reusable testing workflow:
+- Called from build.yml after omnibus image is merged
+- Validates tool availability using `which` and version checks
+- Requires special container options: `--cap-add NET_ADMIN --cap-add SYS_MODULE --sysctl net.ipv4.conf.all.src_valid_mark=1` for Wireguard support
+
+**release.yml** - Automated release workflow:
+- Triggers on version tags (v*.*.*)
+- Creates GitHub releases with automated notes
+- Includes pull commands and version information for all images
+- Runs in parallel with build.yml when tags are pushed
 
 ## Build Commands
 

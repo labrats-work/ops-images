@@ -383,12 +383,8 @@ docker pull ghcr.io/labrats-work/ops-images/ansible:pr-123
 ```
 ops-images/
 ├── .github/workflows/      # CI/CD workflows
-│   ├── ansible.yml        # Ansible image build
-│   ├── terraform.yml      # Terraform image build
-│   ├── python.yml         # Python image build
-│   ├── python-ffmpeg.yml  # Python-ffmpeg image build
-│   ├── omnibus.yml        # Omnibus image build
-│   ├── omnibus-tests.yml  # Omnibus testing workflow
+│   ├── build.yml          # Main build workflow (all images, matrix-based)
+│   ├── omnibus-tests.yml  # Omnibus testing workflow (reusable)
 │   └── release.yml        # Release automation
 ├── src/                   # Dockerfile sources
 │   ├── ansible/
@@ -396,8 +392,19 @@ ops-images/
 │   ├── python/
 │   ├── python-ffmpeg/
 │   └── omnibus/
-└── CLAUDE.md             # AI assistant guidance
+├── CLAUDE.md             # AI assistant guidance
+└── README.md             # This file
 ```
+
+### Workflow Architecture
+
+The repository uses an efficient **matrix-based build system**:
+
+- **Single workflow** (`build.yml`) builds all images in parallel
+- **Matrix strategy** ensures consistency across all images
+- **All images versioned together** - no version drift
+- **Reduced duplication** - one workflow instead of five
+- **Easier maintenance** - update once, apply everywhere
 
 ## License
 
