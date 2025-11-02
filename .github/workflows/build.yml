@@ -98,16 +98,9 @@ jobs:
       - name: Download digests
         uses: actions/download-artifact@v4
         with:
-          path: /tmp/digests
+          path: /tmp/digests/${{ matrix.image }}
           pattern: digests-${{ matrix.image }}-*
           merge-multiple: true
-
-      - name: Debug - List downloaded digests
-        run: |
-          echo "Contents of /tmp/digests:"
-          ls -la /tmp/digests/ || true
-          echo "Finding all files:"
-          find /tmp/digests -type f || true
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -134,7 +127,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create manifest list and push
-        working-directory: /tmp/digests
+        working-directory: /tmp/digests/${{ matrix.image }}
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{ env.REGISTRY }}/${{ env.REGISTRY_ORG }}/${{ matrix.image }}@sha256:%s ' *)
